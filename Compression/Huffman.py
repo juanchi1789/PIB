@@ -13,8 +13,12 @@ Huffman Algorithm for image compression
 
 image = cv2.imread('/Users/juanmedina1810/PycharmProjects/PIB/Compression/Img2.png', 0)
 
+print(image)
 
-plt.hist(np.ravel(image),bins=256, range=(0,255)), plt.title('Histograma imagen1')
+vals = image.mean(axis=1).flatten()
+# plot histogram with 255 bins
+b, bins, patches = plt.hist(image, 255)
+plt.xlim([0,255])
 plt.show()
 
 # comprimida,dicc,shape = Huffman(img) # Asi tenemos que aplicar el algoritmo
@@ -29,8 +33,9 @@ def Huffman(img):
 
     # paso 2, Calculo el histograma normalizado
     
+    plt.hist(np.ravel(image),bins=256, range=(0,255)), plt.title('Histograma de la imagen')
+    plt.show()
     
-
     # paso 3, Genero dos listas vacias para las frecuencias y para la intensidad correspondiente
 
     # paso 4, ingreso valores en las listas
