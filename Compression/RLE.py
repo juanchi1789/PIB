@@ -1,9 +1,5 @@
 import numpy as np
 import cv2
-import matplotlib.pyplot as plt
-from scipy import signal
-import SimpleITK as sitk
-import math
 
 image = cv2.imread('/Users/juanmedina1810/PycharmProjects/PIB/Compression/Img2.png', 0)
 
@@ -87,9 +83,9 @@ def zig_zag_list(matrix):
 #comp = comprimirRLE_ZZ(image)
 
 matrix = np.array([
-    [1, 2, 5],
-    [2, 4, 1],
-    [4, 1, 9],
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
 ])
 
 print("Tenemos la siguiente matrix\n")
@@ -98,32 +94,40 @@ print(matrix)
 solution = zig_zag_list(matrix)
 
 print("La solucion:",solution)
-# print the solution as it as
 
 # Desde aca opero sobre la solucion
+fil, col = matrix.shape
 modo = "Zig-Zag"
 dtype = type(matrix)
 lista_salida = [[fil, col, modo, dtype],[]]
 
 cant = 0
-for i in range(len(solution)):
-    value = solution[i][0]
-    componentes = ""
-    print("Tenemos xx",solution[i])
-    if len(solution[i]) == 1:
+for i in range(len(solution)):# Recorro las listas formadas por el metodo de diagonalizacion
+
+    cant = 0
+    value = solution[i][0]# Me paro en el primer valor de la sublista
+
+    print("Me paro en:", solution[i],"Con el valor:",value)
+
+    if len(solution[i]) == 1:# En el caso que la sublista tenga tamaño 1 (ocurre en las puntas de la imagen) me devuelve
+                             # una lista asi: [Valor de gris en cuestiion,1 (corresponde con la cantidad)]
+
         lista_salida[1].append([solution[i][0],1])
+        print("Tiene longitud 1")
+
     else:
-        for j in range(len(solution[i])):
-            print("Tenemos",solution[i])
-            print("j:",j)
-            gris = solution[i][j]
-            if gris == value:
+        for j in range(len(solution[i])):# Recorro los componentes de la sublista
+            gris = solution[i][j]# Valor de gris
+
+            if gris == value:# Si el valor es el mismo se suma en 1 la variable cantidad
                 cant += 1
             else:
+            #else:# Si son distintos tengo que pararme en ese nuevo valor, y appendear lo que venia sumando antes
                 lista_salida[1].append([value, cant])
-                value = gris
-                cant = 1
+                value = gris# Me paro en otro valor de gris
+                cant = 1 # La cantidad vuelve a ser 1
 
 
+print("La zz es:",solution)
 print("La salida es:",lista_salida)
 
