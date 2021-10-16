@@ -22,12 +22,14 @@ def findCode(tree, val):
 
 
 def Huffman(img):
+
     # Paso 1, tamaño de la imagen
+
     shape = img.shape
 
     # paso 2, Calculo el histograma normalizado
 
-    _, vector, _a = plt.hist(np.ravel(image), bins=256, range=(0, 255))
+    vector, xxx, xxxa = plt.hist(np.ravel(image), bins=256, range=(0, 255))
 
     # paso 3, Genero dos listas vacias para las frecuencias y para la intensidad correspondiente
 
@@ -37,8 +39,9 @@ def Huffman(img):
     # paso 4, ingreso valores en las listas => Estaria bueno llenar solo los que tienen valores != 0
 
     for i in range(len(vector)):
-        Lista_intensidad.append(vector[i])
-        Lista_intensidad.append(i)
+        if vector[i]!=0:
+            Lista_histograma.append(vector[i])
+            Lista_intensidad.append(i)
 
     # paso 5,Creo mi arbol y el contador para los nodos
 
@@ -47,14 +50,16 @@ def Huffman(img):
 
     # paso 6, While que genera el arbol
     while len(Lista_histograma) > 1:
-
+        print("pasamos")
         # Ordeno Histograma segun la frecuencia (hist(i)) ordenar de menor a mayor
-        Lista_histograma = sorted(Lista_histograma)
 
+        Lista_histograma = sorted(Lista_histograma)
         # Selecciono los primeros dos, saco la frecuencia conjunta y los vuelvo a agregar a la lista para que se reordenen en el while
         a1 = Lista_histograma.pop()
         a2 = Lista_histograma.pop()
-        fconj = a1[0] + a2[0]
+
+        fconj = a1 + a2
+
         k += 1
         kstr = str(k)
         nstr = 'n' + kstr
