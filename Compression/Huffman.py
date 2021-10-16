@@ -15,9 +15,11 @@ image = cv2.imread('/Users/juanmedina1810/PycharmProjects/PIB/Compression/Img2.p
 # descomprimida = HuffmanDec(comprimida,dicc,shape) # Asi lo vamos a descomprimir (Es una funcion nueva)
 
 def findCode(tree, val):
-    print("Mira esto:", tree[val])
-    code, padre = tree[val]
+    print("El codigo es:", tree[val][0], "Y el padre es:", tree[val][1])
+    code = tree[val][0]
+    padre = tree[val][1]
     if padre != 'r':
+        print("Pasamos")
         code = findCode(tree, padre) + code
     return code
 
@@ -36,15 +38,19 @@ def Huffman(img):
 
     Lista_intensidad = []  # Se guardan los valores de intensidad de gris
     Lista_histograma = []  # Se guarda la frecuencia con el nivel de gris
+    Lista_histograma_x = []
 
     # paso 4, ingreso valores en las listas => Estaria bueno llenar solo los que tienen valores != 0
 
     for i in range(len(vector)):
-        """if vector[i]!=0:
+        if vector[i]!=0:
             Lista_histograma.append(vector[i])
-            Lista_intensidad.append(i)"""
+            Lista_intensidad.append(i)
+        """
         Lista_histograma.append(vector[i])
-        Lista_intensidad.append(i)
+        Lista_intensidad.append(i)"""
+
+    Lista_histograma_x = sorted(Lista_histograma)
 
 
     # paso 5,Creo mi arbol y el contador para los nodos
@@ -86,8 +92,12 @@ def Huffman(img):
     # paso 9, codifico el árbol
     print("el arbol queda:",tree)
     print("la lista de intensidad es:", Lista_intensidad)
-    for a in Lista_intensidad:
+    print("la lista de frecuencias x es:", sorted(Lista_histograma_x))
+    print("La primera Key del arbol:", list(tree)[0]) # Esto no lo voy a usar
+    print("El primer value del arbol:", list(tree.values())) # Yo voy a usar este dato
+    print("El primer value 00 del arbol:", tree.get(Lista_histograma_x[0]))  # Yo voy a usar este dato
 
+    for a in Lista_intensidad:
         code = findCode(tree, a)
         dicc[a] = code
 
