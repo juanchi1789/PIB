@@ -23,7 +23,6 @@ def findCode(tree, val):
         code = findCode(tree, padre) + code
     return code
 
-
 def Huffman(img):
 
     # Paso 1, tamaño de la imagen
@@ -64,7 +63,6 @@ def Huffman(img):
 
         Lista_histograma = sorted(Lista_histograma,reverse=True)
 
-
         # Selecciono los primeros dos, saco la frecuencia conjunta y los vuelvo a agregar a la lista para que se reordenen en el while
 
         a1 = Lista_histograma.pop()
@@ -92,12 +90,12 @@ def Huffman(img):
     # paso 9, codifico el árbol
     print("el arbol queda:",tree)
     print("la lista de intensidad es:", Lista_intensidad)
-    print("la lista de frecuencias x es:", sorted(Lista_histograma_x))
+    print("la lista de frecuencias x es:",Lista_histograma_x)
     print("La primera Key del arbol:", list(tree)[0]) # Esto no lo voy a usar
     print("El primer value del arbol:", list(tree.values())) # Yo voy a usar este dato
     print("El primer value 00 del arbol:", tree.get(Lista_histograma_x[0]))  # Yo voy a usar este dato
 
-    for a in Lista_intensidad:
+    for a in Lista_histograma_x:
         code = findCode(tree, a)
         dicc[a] = code
 
