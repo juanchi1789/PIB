@@ -15,6 +15,7 @@ image = cv2.imread('/Users/juanmedina1810/PycharmProjects/PIB/Compression/Img2.p
 # descomprimida = HuffmanDec(comprimida,dicc,shape) # Asi lo vamos a descomprimir (Es una funcion nueva)
 
 def findCode(tree, val):
+    print("Mira esto:", tree[val])
     code, padre = tree[val]
     if padre != 'r':
         code = findCode(tree, padre) + code
@@ -39,9 +40,12 @@ def Huffman(img):
     # paso 4, ingreso valores en las listas => Estaria bueno llenar solo los que tienen valores != 0
 
     for i in range(len(vector)):
-        if vector[i]!=0:
+        """if vector[i]!=0:
             Lista_histograma.append(vector[i])
-            Lista_intensidad.append(i)
+            Lista_intensidad.append(i)"""
+        Lista_histograma.append(vector[i])
+        Lista_intensidad.append(i)
+
 
     # paso 5,Creo mi arbol y el contador para los nodos
 
@@ -50,34 +54,40 @@ def Huffman(img):
 
     # paso 6, While que genera el arbol
     while len(Lista_histograma) > 1:
-        print("pasamos")
         # Ordeno Histograma segun la frecuencia (hist(i)) ordenar de menor a mayor
 
-        Lista_histograma = sorted(Lista_histograma)
+        Lista_histograma = sorted(Lista_histograma,reverse=True)
+
+
         # Selecciono los primeros dos, saco la frecuencia conjunta y los vuelvo a agregar a la lista para que se reordenen en el while
+
         a1 = Lista_histograma.pop()
         a2 = Lista_histograma.pop()
 
         fconj = a1 + a2
-
         k += 1
         kstr = str(k)
         nstr = 'n' + kstr
         n = [fconj, nstr]
-        Lista_histograma.append(n)
+        Lista_histograma.append(n[0])
 
         # Armo el arbol
-        tree[a1[1]] = ['0', nstr]
-        tree[a2[1]] = ['1', nstr]
+        tree[a1] = ['0', nstr]
+        tree[a2] = ['1', nstr]
+
 
     # paso 7, finaliza el árbol
     tree[nstr] = ['', 'r']
+    # paso 8, Inicio el diccionario con la codificación (Aqui estamos)
 
-    # paso 8, Inicio el diccionario con la codificación
-    dicc = {}
+    dicc = {}   # Este diccionario va a tener la codificacion (como vimos en clase) => Despues lo vamos a usar
+                # para comprimir
 
     # paso 9, codifico el árbol
+    print("el arbol queda:",tree)
+    print("la lista de intensidad es:", Lista_intensidad)
     for a in Lista_intensidad:
+
         code = findCode(tree, a)
         dicc[a] = code
 
