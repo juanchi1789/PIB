@@ -28,22 +28,37 @@ def ComprimirLRE_HV(img, modo):
                     cant += 1
                 else:
 
-                    """
-                    listaRLE.append(value)
-                    listaRLE.append(cant)
-                    """
                     listaRLE[1].append([value,cant])
 
                     value = gris
                     cant = 1
-        """
-        listaRLE.append(value)
-        listaRLE.append(cant)
-        """
+
+
+    # Horizontal
+    if modo == 1:
+        modo = "Vertical"
+        fil, col = img.shape
+        dtype = img.dtype
+        listaRLE = [[fil, col, modo, dtype], []]
+
+        value = img[0, 0]
+        cant = 0
+
+        for i in range(col):
+            for j in range(fil):
+                gris = img[i, j]
+                if gris == value:
+                    cant += 1
+                else:
+
+                    listaRLE[1].append([value, cant])
+
+                    value = gris
+                    cant = 1
         listaRLE[1].append([value, cant])
 
     return listaRLE
 
 
-comp = ComprimirLRE_HV(image, 0)
+comp = ComprimirLRE_HV(image, 1)
 print(comp)
