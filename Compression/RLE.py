@@ -80,61 +80,64 @@ def zig_zag_list(matrix):
 
     return solution
 
-#comp = comprimirRLE_ZZ(image)
+def encoder_rle(lista):
+    i = 0
+    contador = 1
+    lista_out = []
+    while i < len(lista):
+        value = lista[i]
 
+        if i == len(lista) - 1 and contador ==1:
+            lista_out.append([lista[i], contador])
+            break
+
+        if i == len(lista) - 1 and contador > 1:
+            lista_out.append([lista[i], contador])
+            break
+
+        if value == lista[i + 1] and i < len(lista):
+            contador += 1
+
+        if value != lista[i + 1] or i == len(lista):
+            lista_out.append([lista[i],contador])
+            contador = 1
+
+        i += 1
+
+    return lista_out
+
+def decoder_rle(lista):
+    list_decoded = []
+    for i in range(len(lista)):
+        value = lista[i][0]
+        times = lista[i][1]
+        k = 0
+        while k < times:
+            list_decoded.append(value)
+            k += 1
+    return list_decoded
+
+def RLE_encoder(matrix):
+
+    solution = zig_zag_list(matrix) # Esta es la lista de listas, de las diagonales
+    # Desde aca opero sobre la solucion
+    fil, col = matrix.shape
+    modo = "Zig-Zag"
+    dtype = type(matrix)
+    lista_salida = [[fil, col, modo, dtype], []]
+    print("Teniendo una lista solution",solution)
+
+    for i in range(len(solution)):
+        lista_salida[1].append(encoder_rle(solution[i]))
+
+    return lista_salida
+
+
+# Una matrix simil imagen
 matrix = np.array([
     [1, 2, 7],
     [4, 7, 6],
     [7, 8, 9],
 ])
 
-print("Tenemos la siguiente matrix\n")
-print(matrix)
-
-solution = zig_zag_list(matrix)
-
-print("La solucion:",solution)
-
-# Desde aca opero sobre la solucion
-fil, col = matrix.shape
-modo = "Zig-Zag"
-dtype = type(matrix)
-lista_salida = [[fil, col, modo, dtype],[]]
-
-cant = 0
-for i in range(len(solution)):# Recorro las listas formadas por el metodo de diagonalizacion
-
-    cant = 0
-    #value = solution[i][0]# Me paro en el primer valor de la sublista
-
-    #print("Me paro en:", solution[i],"Con el valor:",value)
-
-    if len(solution[i]) == 1:# En el caso que la sublista tenga tamaño 1 (ocurre en las puntas de la imagen) me devuelve
-                             # una lista asi: [Valor de gris en cuestiion,1 (corresponde con la cantidad)]
-
-        lista_salida[1].append([solution[i][0],1])
-        print("Tiene longitud 1")
-
-    else:# Si la sublista tiene un tamaño mayor a uno (en todos lados menos en las puntas)
-        value = solution[i][0]
-
-        for j in range(len(solution[i])):# Recorro los componentes de la sublista
-            gris = solution[i][j]# Valor de gris
-            print("El valor de gris es:",gris)
-
-            if gris == value:# Si el valor es el mismo se suma en 1 la variable cantidad
-                cant += 1
-
-            if gris != value and (j < len(solution[i]) or j == len(solution[i]) - 1):
-                # Si son distintos tengo que pararme en ese nuevo valor, y appendear lo que venia sumando antes
-                lista_salida[1].append([value, cant])
-                value = gris# Me paro en otro valor de gris
-                cant = 1 # La cantidad vuelve a ser 1
-
-            if gris == value and j == len(solution[i])-1:
-                cant += 1
-
-
-print("La lista solucion es:",solution)
-print("La salida es:",lista_salida)
-
+print("Tenemos:",RLE_encoder(matrix))
