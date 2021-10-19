@@ -83,8 +83,8 @@ def zig_zag_list(matrix):
 #comp = comprimirRLE_ZZ(image)
 
 matrix = np.array([
-    [1, 2, 3],
-    [4, 5, 6],
+    [1, 2, 7],
+    [4, 7, 6],
     [7, 8, 9],
 ])
 
@@ -105,9 +105,9 @@ cant = 0
 for i in range(len(solution)):# Recorro las listas formadas por el metodo de diagonalizacion
 
     cant = 0
-    value = solution[i][0]# Me paro en el primer valor de la sublista
+    #value = solution[i][0]# Me paro en el primer valor de la sublista
 
-    print("Me paro en:", solution[i],"Con el valor:",value)
+    #print("Me paro en:", solution[i],"Con el valor:",value)
 
     if len(solution[i]) == 1:# En el caso que la sublista tenga tamaño 1 (ocurre en las puntas de la imagen) me devuelve
                              # una lista asi: [Valor de gris en cuestiion,1 (corresponde con la cantidad)]
@@ -115,19 +115,26 @@ for i in range(len(solution)):# Recorro las listas formadas por el metodo de dia
         lista_salida[1].append([solution[i][0],1])
         print("Tiene longitud 1")
 
-    else:
+    else:# Si la sublista tiene un tamaño mayor a uno (en todos lados menos en las puntas)
+        value = solution[i][0]
+
         for j in range(len(solution[i])):# Recorro los componentes de la sublista
             gris = solution[i][j]# Valor de gris
+            print("El valor de gris es:",gris)
 
             if gris == value:# Si el valor es el mismo se suma en 1 la variable cantidad
                 cant += 1
-            else:
-            #else:# Si son distintos tengo que pararme en ese nuevo valor, y appendear lo que venia sumando antes
+
+            if gris != value and (j < len(solution[i]) or j == len(solution[i]) - 1):
+                # Si son distintos tengo que pararme en ese nuevo valor, y appendear lo que venia sumando antes
                 lista_salida[1].append([value, cant])
                 value = gris# Me paro en otro valor de gris
                 cant = 1 # La cantidad vuelve a ser 1
 
+            if gris == value and j == len(solution[i])-1:
+                cant += 1
 
-print("La zz es:",solution)
+
+print("La lista solucion es:",solution)
 print("La salida es:",lista_salida)
 
