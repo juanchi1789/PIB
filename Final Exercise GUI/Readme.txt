@@ -1,3 +1,3 @@
 Para que esto funcione correctamente:
 
-Instalar tkinter: pip insall tk
+Instalar tkinter: pip install tk
