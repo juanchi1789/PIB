@@ -23,11 +23,13 @@ def ComprimirLRE_HV(img, modo):
                 if gris == value:
                     cant += 1
                 else:
-
                     listaRLE[1].append([value, cant])
-
                     value = gris
                     cant = 1
+
+        listaRLE[1].append([value, cant])
+
+
 
     # Vertical
     if modo == 1:
@@ -50,6 +52,7 @@ def ComprimirLRE_HV(img, modo):
 
                     value = gris
                     cant = 1
+
         listaRLE[1].append([value, cant])
 
     return listaRLE
@@ -143,9 +146,11 @@ matrix = np.array([
     [7, 8, 9],
 ])
 print(matrix)
-print("Tenemos:", RLE_encoder(matrix))
+#print("Tenemos:", RLE_encoder(matrix))
 
 comprimida = RLE_encoder(matrix)
+
+print("Aqui",comprimida)
 # Para decodificar yo tengo que hacer un decoder_rle(encoder_rle(solution[i]))
 
 # Asi queda codificada ==>lista_salida = [[fil, col, modo, dtype], [D1,D2,...,Dn]]
@@ -178,5 +183,17 @@ def RLE_decoder(lista_salida):
 
 print("Decoded:",RLE_decoder(comprimida))
 
-
 # Nos queda igual a la lista solucion, asi que tenemos que poder pasar eso a la matrix
+
+
+##### ==> Evaluando el codigo para Horizontal y vertical
+
+"""print(ComprimirLRE_HV(matrix, 0))
+codificada = ComprimirLRE_HV(matrix, 1)[1]
+fil = ComprimirLRE_HV(matrix, 0)[0][0]
+col = ComprimirLRE_HV(matrix, 0)[0][1]
+deco = np.array(decoder_rle(codificada))
+matrix_final = deco.reshape(fil,col)
+print(deco.reshape(fil,col))"""
+
+

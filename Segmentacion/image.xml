@@ -1,0 +1,81 @@
+<annotation>
+    <folder>keras-frcnn-master</folder>
+    <filename>000001</filename>
+    <path>/Users/juanmedina1810/Desktop/malaria/000001.jpg</path>
+    <source>
+        <database>Unknown</database>
+    </source>
+    <size>
+        <width>750</width>
+        <height>750</height>
+        <depth>3</depth>
+    </size>
+    <segmented>0</segmented>
+    <object>
+        <name>Plasmodium trophozoites</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>697</xmin>
+            <ymin>586</ymin>
+            <xmax>727</xmax>
+            <ymax>619</ymax>
+        </bndbox>
+    </object>    <object>
+        <name>Plasmodium trophozoites</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>36</xmin>
+            <ymin>533</ymin>
+            <xmax>76</xmax>
+            <ymax>580</ymax>
+        </bndbox>
+    </object>    <object>
+        <name>Plasmodium trophozoites</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>174</xmin>
+            <ymin>552</ymin>
+            <xmax>201</xmax>
+            <ymax>593</ymax>
+        </bndbox>
+    </object>    <object>
+        <name>Plasmodium trophozoites</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>262</xmin>
+            <ymin>574</ymin>
+            <xmax>292</xmax>
+            <ymax>611</ymax>
+        </bndbox>
+    </object>    <object>
+        <name>Plasmodium trophozoites</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>602</xmin>
+            <ymin>529</ymin>
+            <xmax>642</xmax>
+            <ymax>559</ymax>
+        </bndbox>
+    </object>    <object>
+        <name>Plasmodium trophozoites</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>228</xmin>
+            <ymin>259</ymin>
+            <xmax>262</xmax>
+            <ymax>288</ymax>
+        </bndbox>
+    </object>
+</annotation>
