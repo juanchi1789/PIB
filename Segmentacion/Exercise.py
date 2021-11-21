@@ -1,6 +1,12 @@
-import numpy as np
-import cv2
-import funciones as func
+from tkinter import *
 
-image = cv2.imread('/Users/juanmedina1810/PycharmProjects/PIB/Compression/Img2.png', 0)
+root = Tk()
+
+myLabel = Label(root, text="Hello world")
+
+myLabel.pack()
+
+root.mainloop()
+
+
 

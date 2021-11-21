@@ -45,6 +45,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/Segmentacion/Exercise.py">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/Segmentacion/coocurrencia.py">
           <value>
             <Attribute>
