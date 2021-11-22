@@ -1,21 +1,11 @@
-from tkinter import *
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+import math
+import funciones as func
 
-root = Tk()
-# Definir un texto
-myLabel = Label(root, text="Hello world")
-myLabel.pack()
+imagen1 = cv2.imread('/Users/juanmedina1810/PycharmProjects/PIB/Final Exercise GUI/Images/ALL_1.bmp', 0)
 
-texto = Entry(root, width = 50)# Casilla para ingresar texto
-texto.pack()
-
-# Definir un boton
-# Podemos cambiarle el tamaño
-# Para que tenga alguna actividad tenes que definir una funcion!
-def onClick():
-    label = Label(root, text = "Hola! " + texto.get())
-    label.pack()
-
-# El parametro command define la funcion que tiene asignada
-myButton = Button(root, text="Enter your name", padx=50, pady=20, command=onClick)
-myButton.pack()
-root.mainloop()
+plt.imshow(imagen1, cmap="gray",vmin=0, vmax=255)
+plt.title("La imagen Por Region Growing")
+plt.show()
