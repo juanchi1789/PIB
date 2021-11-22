@@ -52,7 +52,7 @@ canvas.create_image(0, 0, image=photo, anchor=tkinter.NW)
 
 root.mainloop()
 """
-#global panelA, panelB
+
 def select_image():
     # grab a reference to the image panels
     global panelA, panelB
@@ -85,15 +85,20 @@ def select_image():
         """
             Desde aqui solo se posicionan las imagenes
         """
+        imagen_1 = LabelFrame(root, text = "Imagen 1")
+        imagen_1.pack(side="left", padx=30, pady=30)
+        imagen_2 = LabelFrame(root, text="Imagen 2")
+        imagen_2.pack(side="right", padx=30, pady=30)
+
         if panelA is None or panelB is None:
             # the first panel will store our original image
-            panelA = Label(image=image)
+            panelA = Label(imagen_1,image=image)
             panelA.image = image
-            panelA.pack(side="left", padx=10, pady=10)
+            panelA.pack(side="left", padx=30, pady=30)
             # while the second panel will store the edge map
-            panelB = Label(image=edged)
+            panelB = Label(imagen_2,image=edged)
             panelB.image = edged
-            panelB.pack(side="right", padx=10, pady=10)
+            panelB.pack(side="right", padx=30, pady=30)
         # otherwise, update the image panels
         else:
             # update the pannels
@@ -102,21 +107,25 @@ def select_image():
             panelA.image = image
             panelB.image = edged
 
-# initialize the window toolkit along with the two image panels
+
+# Desde aca empieza la GUI
 root = Tk()
 root.title("Trabajo final de PIB")
 root.geometry("800x500")
 
-myLabel = Label(root, text="Trabajo final de PIB", font=("Arial", 50))
+myLabel = Label(root, text="Trabajo final de PIB", font=("Arial", 50)) # Ese titulo lo podemos cambiar
 myLabel.pack()
 
-
+# Inicialmente no hay imagen
 panelA = None
 panelB = None
-# create a button, then when pressed, will trigger a file chooser
-# dialog and allow the user to select an input image; then add the
-# button the GUI
-btn = Button(root, text="Select an image", command=select_image)
-btn.pack(side="bottom", fill="both", expand="yes", padx="10", pady="10")
-# kick off the GUI
+
+# El boton que nos lleva a cargar las imagenes
+btn = Button(root, text="Seleccionar una imagen para detectar", command=select_image, font=("Arial", 25))
+btn.pack(fill="both", expand="yes", padx="5", pady="5")
+
+# Exit
+exit_button = Button(root, text="Exit", command=root.quit)
+exit_button.pack(side="bottom",fill="both", expand="yes")
+
 root.mainloop()
