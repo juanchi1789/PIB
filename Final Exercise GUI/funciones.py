@@ -18,7 +18,7 @@ from copy import copy
 import time
 from skimage.measure import label, regionprops, regionprops_table
 from skimage import measure
-
+#matplotlib.use('agg')
 
 def binarizacion(im,umbral,umbral2):
   M = im.shape[0]
@@ -51,20 +51,28 @@ def ero(img,it):
   kernele = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(10,10))
   c1 = img.astype("uint8")
   img_out = cv2.erode(c1, kernele, iterations=it)
+
+  """
   plt.figure(figsize=(10,10))
   plt.subplot(121),plt.imshow(img,cmap='gray'),plt.title('Imagen original')
   plt.subplot(122),plt.imshow(img_out,cmap='gray'),plt.title('Imagen Erosionada')
   plt.show()
+  """
+
   return img_out
 
 def dil(img,it):
   kernele = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(10,10))
   c1 = img.astype("uint8")
   img_out = cv2.dilate(c1, kernele, iterations=it)
+
+  """
   plt.figure(figsize=(10,10))
   plt.subplot(121),plt.imshow(img,cmap='gray'),plt.title('Imagen original')
   plt.subplot(122),plt.imshow(img_out,cmap='gray'),plt.title('Imagen Dilatada')
   plt.show()
+  """
+
   return img_out
 
 def close(img, it):
@@ -89,6 +97,63 @@ def open(img, it):
   plt.show()
   return img_out
 
+# Las ultimas funciones!
+def etiquetadoybb(img):
+  MIN_REGION = 15000
+  MIN_EXTENT = 0.65
+
+  c, labels = cv2.connectedComponents(img)
+
+  #propiedades labels etiquetado
+  regions = regionprops(labels)
+  props = measure.regionprops_table(labels,img,properties=['label','area','equivalent_diameter','extent', 'centroid'])
+
+  import pandas as pd
+  df= pd.DataFrame(props)
+  print(df)
+
+  #conteo de linfocitos
+  linfocitos = 0
+  labels_lengthx = labels.shape[0]
+  labels_lengthy = labels.shape[1]
+  location = [] #ubicación
+
+  for i in range (c-1):
+    if (regions[i].area > MIN_REGION):
+      if (regions[i].extent > MIN_EXTENT):
+       linfocitos=linfocitos+1
+       location.append(regions[i].centroid)
+
+  print("Las linfocitos son: ", linfocitos)
+  print("Las posiciones son: ", location)
+
+  cuadrados = []
+  for region in regionprops(labels):
+    if (region.area > MIN_REGION):
+      if(region.extent > MIN_EXTENT):
+        # draw rectangles
+        minr, minc, maxr, maxc = region.bbox
+        #rect = matplotlib.patches.Rectangle((minc, minr), maxc - minc, maxr - minr,
+        #                            fill=False, edgecolor='white', linewidth=3)
+        rect = (minc, minr, maxc, maxr)
+        cuadrados.append(rect)
+  return cuadrados
+
+def dibujarCuadrados(img_original, cuadrados):
+  from PIL import Image, ImageDraw
+
+  im = Image.fromarray(img_original)
+  draw = ImageDraw.Draw(im)
+
+  for c in cuadrados:
+    draw.rectangle(c, fill=None, outline="white", width=10)
+
+  return np.array(im)
+
+
+
+# IMPORTANTE
+"""
 def etiquetadoybb(img,img_original):
   c, labels = cv2.connectedComponents(img)
 
@@ -116,12 +181,11 @@ def etiquetadoybb(img,img_original):
   #print("El paciente presenta ", falciformes, "de ", total, "por lo tanto presenta un ", porcentaje, "%")
   print("Las posiciones son: ", location)
 
-  fig, ax = plt.subplots(figsize=(10, 6))
-
-  ax.imshow(img_original,cmap=plt.cm.nipy_spectral)
-
+  fig, ax = plt.subplots()
+  fig.figimage(img_original,cmap=plt.cm.nipy_spectral)
+  fig.savefig("img_original.png")
   #ESTO SIRVE PARA PONER EL CUADRADITO PERO HABRIA QUE LOGRAR SEPARAR MAS. Esto es indepe
-  pos=np.zeros(shape=(1,c-1));
+  pos=np.zeros(shape=(1,c-1))
 
   #SACANDO LAS DE LOS BORDES>
   cuadrados = []
@@ -132,9 +196,13 @@ def etiquetadoybb(img,img_original):
         minr, minc, maxr, maxc = region.bbox
         rect = matplotlib.patches.Rectangle((minc, minr), maxc - minc, maxr - minr,
                                     fill=False, edgecolor='white', linewidth=3)
-        ax.add_patch(rect)
+        fig.patches.append(rect)
         cuadrados.append(rect)
-  return cuadrados
+  #plt.show()
+
+  fig.savefig("img_intermedia.png")
+  return cuadrados,linfocitos, fig2data(fig)
+"""
 
 def boundingBoxP(img, labels, c):
   ROI_number = 0
@@ -370,19 +438,34 @@ def kmeans(img):
 
   center_blanco = np.max(center)
 
+  """
   plt.figure(figsize=(10,10))
   plt.subplot(121),plt.imshow(img,cmap='gray'),plt.title('Imagen original')
   plt.subplot(122),plt.imshow(img_kmeans,cmap='gray'),plt.title('Imagen binarizada con Kmeans')
   plt.show()
+  """
   return img_kmeans, center_blanco
 
 
+"""
+  Pasos para la funcion final:
+"""
 
+img1 = cv2.imread('/Users/juanmedina1810/PycharmProjects/PIB/Final Exercise GUI/Images/ALL_23.bmp')
+def contador_linf(img1):
+  img_yuv1 = cv2.cvtColor(img1, cv2.COLOR_BGR2YUV)
+  img1_u = img_yuv1[:,:,1] # La mas representativa
+  imgkm1, center1 = kmeans(img1_u)
+  cluster1 = (imgkm1 == center1)
+  img1_erosion = ero(cluster1, 2)
+  img1_dil = dil(img1_erosion, 2)
+  cuadrados =etiquetadoybb(img1_dil)# Funcion final
+  image = dibujarCuadrados(img1, cuadrados)
 
+  return image
 
-
-
-
+plt.imshow(contador_linf(img1))
+plt.show()
 
 
 
