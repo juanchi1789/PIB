@@ -68,6 +68,7 @@ def select_image():
         """
             La funcion que diseñamos va aqui!
         """
+
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         edged = cv2.Canny(gray, 50, 100)
         # OpenCV represents images in BGR order; however PIL represents
@@ -81,6 +82,9 @@ def select_image():
         edged = ImageTk.PhotoImage(edged)
         # if the panels are None, initialize them
 
+        """
+            Desde aqui solo se posicionan las imagenes
+        """
         if panelA is None or panelB is None:
             # the first panel will store our original image
             panelA = Label(image=image)
@@ -100,7 +104,13 @@ def select_image():
 
 # initialize the window toolkit along with the two image panels
 root = Tk()
+root.title("Trabajo final de PIB")
 root.geometry("800x500")
+
+myLabel = Label(root, text="Trabajo final de PIB", font=("Arial", 50))
+myLabel.pack()
+
+
 panelA = None
 panelB = None
 # create a button, then when pressed, will trigger a file chooser
@@ -108,6 +118,5 @@ panelB = None
 # button the GUI
 btn = Button(root, text="Select an image", command=select_image)
 btn.pack(side="bottom", fill="both", expand="yes", padx="10", pady="10")
-
 # kick off the GUI
 root.mainloop()
