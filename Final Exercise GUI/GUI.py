@@ -54,14 +54,14 @@ root.mainloop()
 """
 
 def select_image():
-    # grab a reference to the image panels
+    # Los paneles son las imagenes
     global panelA, panelB
-    # open a file chooser dialog and allow the user to select an input image
 
+    # La funcion que nos permite seleccionar las imagenes (el path)
     path = filedialog.askopenfilename()
+
     if len(path) > 0:
-        # load the image from disk, convert it to grayscale, and detect
-        # edges in it
+
         image_inicial = cv2.imread(path)
         image = cv2.resize(image_inicial, (400, 300))
 
@@ -71,41 +71,45 @@ def select_image():
 
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         edged = cv2.Canny(gray, 50, 100)
-        # OpenCV represents images in BGR order; however PIL represents
-        # images in RGB order, so we need to swap the channels
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        # convert the images to PIL format...
+
+        # Se convierte la imagen a un formato que pueda ser leido
         image = Image.fromarray(image)
         edged = Image.fromarray(edged)
-        # ...and then to ImageTk format
+
         image = ImageTk.PhotoImage(image)
         edged = ImageTk.PhotoImage(edged)
-        # if the panels are None, initialize them
+
+        contador = 10
 
         """
             Desde aqui solo se posicionan las imagenes
         """
-        imagen_1 = LabelFrame(root, text = "Imagen 1")
+        imagen_1 = LabelFrame(root, text = "Imagen original")
         imagen_1.pack(side="left", padx=30, pady=30)
-        imagen_2 = LabelFrame(root, text="Imagen 2")
+        imagen_2 = LabelFrame(root, text="Imagen resultante")
         imagen_2.pack(side="right", padx=30, pady=30)
 
+        calulas_contadas = Label(root, text="Se contaron: " + str(contador) + " Celulas")
+        calulas_contadas.pack(side="bottom")
+
         if panelA is None or panelB is None:
-            # the first panel will store our original image
+            # Imagen 1
             panelA = Label(imagen_1,image=image)
             panelA.image = image
-            panelA.pack(side="left", padx=30, pady=30)
-            # while the second panel will store the edge map
+            panelA.pack()
+            # Imagen 2
             panelB = Label(imagen_2,image=edged)
             panelB.image = edged
-            panelB.pack(side="right", padx=30, pady=30)
-        # otherwise, update the image panels
+            panelB.pack()
+
         else:
-            # update the pannels
+
             panelA.configure(image=image)
             panelB.configure(image=edged)
             panelA.image = image
             panelB.image = edged
+
 
 
 # Desde aca empieza la GUI
