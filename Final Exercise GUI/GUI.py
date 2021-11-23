@@ -143,7 +143,7 @@ root.title("Trabajo final de PIB")
 root.geometry("800x500")
 var = StringVar()# Variable que va a reemplazar el texto
 
-myLabel = Label(root, text="Contador de Linfocitos", font=("Arial", 50))  # Ese titulo lo podemos cambiar
+myLabel = Label(root, text="Detector y contador de Linfocitos", font=("Arial", 50))  # Ese titulo lo podemos cambiar
 myLabel['background']='#7de898'
 myLabel.pack()
 
