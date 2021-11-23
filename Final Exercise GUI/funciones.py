@@ -137,7 +137,7 @@ def etiquetadoybb(img):
         #                            fill=False, edgecolor='white', linewidth=3)
         rect = (minc, minr, maxc, maxr)
         cuadrados.append(rect)
-  return cuadrados
+  return cuadrados,linfocitos
 
 def dibujarCuadrados(img_original, cuadrados):
   from PIL import Image, ImageDraw
@@ -451,21 +451,22 @@ def kmeans(img):
   Pasos para la funcion final:
 """
 
-img1 = cv2.imread('/Users/juanmedina1810/PycharmProjects/PIB/Final Exercise GUI/Images/ALL_23.bmp')
+
 def contador_linf(img1):
   img_yuv1 = cv2.cvtColor(img1, cv2.COLOR_BGR2YUV)
   img1_u = img_yuv1[:,:,1] # La mas representativa
   imgkm1, center1 = kmeans(img1_u)
   cluster1 = (imgkm1 == center1)
-  img1_erosion = ero(cluster1, 2)
-  img1_dil = dil(img1_erosion, 2)
-  cuadrados =etiquetadoybb(img1_dil)# Funcion final
+  img1_erosion = ero(cluster1, 1)
+  img1_dil = dil(img1_erosion, 1)
+  cuadrados,linfocitos =etiquetadoybb(img1_dil)# Funcion final
   image = dibujarCuadrados(img1, cuadrados)
+  return image,linfocitos
 
-  return image
-
+"""img1 = cv2.imread('/Users/juanmedina1810/PycharmProjects/PIB/Final Exercise GUI/Images/ALL_23.bmp')
 plt.imshow(contador_linf(img1))
-plt.show()
+print(type(contador_linf(img1)))
+plt.show()"""
 
 
 

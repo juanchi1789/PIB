@@ -8,6 +8,7 @@ import cv2
 from PIL import Image
 from PIL import ImageTk
 import cv2
+import funciones as func
 
 """
 Cosas de practica:
@@ -70,17 +71,32 @@ def select_image():
         """
 
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        edged = cv2.Canny(gray, 50, 100)
+        #edged = cv2.Canny(gray, 50, 100)
+        edged,linfo = func.contador_linf(image_inicial)
+
+        scale_percent = 15  # percent of original size
+        width = int(edged.shape[1] * scale_percent / 100)
+        height = int(edged.shape[0] * scale_percent / 100)
+        dim = (width, height)
+
+        # resize image
+        resized = cv2.resize(edged, dim, interpolation=cv2.INTER_AREA)
+
+        print(type(edged))
+
+        # La imagen original
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+
 
         # Se convierte la imagen a un formato que pueda ser leido
         image = Image.fromarray(image)
-        edged = Image.fromarray(edged)
+        edged = Image.fromarray(resized)
 
         image = ImageTk.PhotoImage(image)
         edged = ImageTk.PhotoImage(edged)
 
-        contador = 10
+        contador = linfo
 
         """
             Desde aqui solo se posicionan las imagenes
