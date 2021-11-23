@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 import PIL
-from PIL import ImageTk,Image
+from PIL import ImageTk, Image
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
@@ -55,6 +55,7 @@ canvas.create_image(0, 0, image=photo, anchor=tkinter.NW)
 root.mainloop()
 """
 
+
 def select_image():
     # Los paneles son las imagenes
     global panelA, panelB
@@ -98,20 +99,19 @@ def select_image():
         """
             Desde aqui solo se posicionan las imagenes
         """
-        imagen_1 = LabelFrame(root, text = "Imagen original")
+
+        imagen_1 = LabelFrame(root, text="Imagen original")
         imagen_1.pack(side="left", padx=30, pady=30)
         imagen_2 = LabelFrame(root, text="Imagen resultante")
         imagen_2.pack(side="right", padx=30, pady=30)
 
-
-
         if panelA is None or panelB is None:
             # Imagen 1
-            panelA = Label(imagen_1,image=image)
+            panelA = Label(imagen_1, image=image)
             panelA.image = image
             panelA.pack()
             # Imagen 2
-            panelB = Label(imagen_2,image=edged)
+            panelB = Label(imagen_2, image=edged)
             panelB.image = edged
             panelB.pack()
 
@@ -125,26 +125,28 @@ def select_image():
         """
             Aca se muestra el texto que indica la cantidad de linfocitos detectados
         """
+        """contador = linfo
+        updated_text = "Se contaron: " + str(contador) + " Celulas"
+        w = Label(root)
+        w.configure(text=updated_text)
+        w.pack()"""
 
-        contador = linfo
-        var = StringVar()
+        var.set("Se contaron: " + str(linfo) + " Celulas")
 
-        calulas_contadas = Label(root, textvariable=var)
-        calulas_contadas.pack()
-
-        var.set("Se contaron: " + str(contador) + " Celulas")
-
-        messagebox.showinfo("Linfos contados", "La cantidad de linfocitos detectados es: " + str(contador))
-
+        #messagebox.showinfo("Linfos contados", "La cantidad de linfocitos detectados es: " + str(contador))
 
 
 # Desde aca empieza la GUI
 root = Tk()
+root['background']='#7de898'
 root.title("Trabajo final de PIB")
 root.geometry("800x500")
+var = StringVar()# Variable que va a reemplazar el texto
 
-myLabel = Label(root, text="Contador de Linfocitos", font=("Arial", 50)) # Ese titulo lo podemos cambiar
+myLabel = Label(root, text="Contador de Linfocitos", font=("Arial", 50))  # Ese titulo lo podemos cambiar
+myLabel['background']='#7de898'
 myLabel.pack()
+
 
 # Inicialmente no hay imagen
 panelA = None
@@ -152,11 +154,19 @@ panelB = None
 
 # El boton que nos lleva a cargar las imagenes
 btn = Button(root, text="Seleccionar una imagen para detectar", command=select_image, font=("Arial", 25))
-btn.pack(fill="both", expand="yes", padx="5", pady="5")
+btn['background']='#7de898'
+btn.pack(fill="both", padx="5", pady="5")
+#btn.pack(fill="both", expand="yes", padx="5", pady="5")
+
+
+# Contador
+calulas_contadas = Label(root, textvariable=var)
+calulas_contadas.configure(font=("Courier", 25, "italic"))
+calulas_contadas.pack()
 
 # Exit
 exit_button = Button(root, text="Exit", command=root.quit)
-#exit_button.pack(side="bottom",fill="both", expand="yes")
-exit_button.pack(side="bottom", expand="yes")
+# exit_button.pack(side="bottom",fill="both", expand="yes")
+exit_button.pack(side="bottom", fill="both")
 
 root.mainloop()
