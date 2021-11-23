@@ -9,6 +9,7 @@ from PIL import Image
 from PIL import ImageTk
 import cv2
 import funciones as func
+from tkinter import messagebox
 
 """
 Cosas de practica:
@@ -71,7 +72,7 @@ def select_image():
         """
 
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        #edged = cv2.Canny(gray, 50, 100)
+
         edged, linfo = func.contador_linf(image_inicial)
 
         scale_percent = 17  # percent of original size
@@ -87,16 +88,12 @@ def select_image():
         # La imagen original
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-
-
         # Se convierte la imagen a un formato que pueda ser leido
         image = Image.fromarray(image)
         edged = Image.fromarray(resized)
 
         image = ImageTk.PhotoImage(image)
         edged = ImageTk.PhotoImage(edged)
-
-        contador = linfo
 
         """
             Desde aqui solo se posicionan las imagenes
@@ -106,8 +103,7 @@ def select_image():
         imagen_2 = LabelFrame(root, text="Imagen resultante")
         imagen_2.pack(side="right", padx=30, pady=30)
 
-        calulas_contadas = Label(root, text="Se contaron: " + str(contador) + " Celulas")
-        calulas_contadas.pack(side="bottom")
+
 
         if panelA is None or panelB is None:
             # Imagen 1
@@ -126,6 +122,20 @@ def select_image():
             panelA.image = image
             panelB.image = edged
 
+        """
+            Aca se muestra el texto que indica la cantidad de linfocitos detectados
+        """
+
+        contador = linfo
+        var = StringVar()
+
+        calulas_contadas = Label(root, textvariable=var)
+        calulas_contadas.pack()
+
+        var.set("Se contaron: " + str(contador) + " Celulas")
+
+        messagebox.showinfo("Linfos contados", "La cantidad de linfocitos detectados es: " + str(contador))
+
 
 
 # Desde aca empieza la GUI
@@ -133,7 +143,7 @@ root = Tk()
 root.title("Trabajo final de PIB")
 root.geometry("800x500")
 
-myLabel = Label(root, text="Trabajo final de PIB", font=("Arial", 50)) # Ese titulo lo podemos cambiar
+myLabel = Label(root, text="Contador de Linfocitos", font=("Arial", 50)) # Ese titulo lo podemos cambiar
 myLabel.pack()
 
 # Inicialmente no hay imagen
@@ -146,6 +156,7 @@ btn.pack(fill="both", expand="yes", padx="5", pady="5")
 
 # Exit
 exit_button = Button(root, text="Exit", command=root.quit)
-exit_button.pack(side="bottom",fill="both", expand="yes")
+#exit_button.pack(side="bottom",fill="both", expand="yes")
+exit_button.pack(side="bottom", expand="yes")
 
 root.mainloop()
