@@ -72,9 +72,9 @@ def select_image():
 
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         #edged = cv2.Canny(gray, 50, 100)
-        edged,linfo = func.contador_linf(image_inicial)
+        edged, linfo = func.contador_linf(image_inicial)
 
-        scale_percent = 15  # percent of original size
+        scale_percent = 17  # percent of original size
         width = int(edged.shape[1] * scale_percent / 100)
         height = int(edged.shape[0] * scale_percent / 100)
         dim = (width, height)
